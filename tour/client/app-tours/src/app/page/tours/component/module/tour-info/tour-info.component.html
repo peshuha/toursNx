@@ -1,0 +1,13 @@
+<a [routerLink]="['../../tours-list']">Назад</a>
+<p>{{tour?.name}}</p>
+<img 
+  *ngFor="let idx of pics"
+  src="{{imgbaseurl}}/img?id={{tour?._id}}&idx={{idx}}" 
+  [alt]="tour?.name" 
+  height="150px"
+/>
+<div>
+<button (click)="Order()">Заказать</button>
+
+</div>
+

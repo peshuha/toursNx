@@ -1,0 +1,5 @@
+{
+  "serverProtocol": "http",
+  "baseIndexHref": "/",
+  "tourservice": "http://localhost:3000"
+}
