@@ -3,6 +3,7 @@ import { Order, OrderDocument } from '../../mongo/order';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { TourService } from '../tour/tour.service';
+import { ITour } from '@tour/lib-dto-js';
 
 @Injectable()
 export class OrderService {
@@ -18,14 +19,16 @@ export class OrderService {
     }
 
     async getAll(userid: string) {
-        const orders = await this.md.find({userid})
+        const orders: OrderDocument[] = await this.md.find({userid})
         console.log("OrderService::getAll()", orders)
-        const tours =  await orders.map(async (ord: OrderDocument) => {
-            const tourid: string = ord.toObject().tourid
+        
+        let tours: ITour[] = []
+        for(let ord of orders) {
+            const tourid: string = ord.tourid
             const tour = await this.tour.getById(tourid)
             console.log("OrderService::getAll()/tour", tourid, tour)
-            return tour
-        })
+            tours.push(tour.toObject())
+        }
 
         console.log("OrderService::getAll()/tours", tours)
         return tours
