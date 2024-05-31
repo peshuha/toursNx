@@ -9,7 +9,7 @@ export const MOCK_ORDERS: IOrder[] = [
     "price": "€2,192",
     "img": "ocean.jpg",
     "type": "multi",
-    userid: 1
+    "userid": "1"
   },
   {
     "_id": "1-1",
@@ -20,7 +20,7 @@ export const MOCK_ORDERS: IOrder[] = [
     "img": "pic1.jpg",
     "type": "multi",
     "date": "2022-10-22",
-    userid: 2
+    "userid": "2"
   },
   {
     "_id": "2",

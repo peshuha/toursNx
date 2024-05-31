@@ -9,7 +9,6 @@
 */
 
 import { Prop, Schema, SchemaFactory, raw } from '@nestjs/mongoose';
-import { TourType } from '@tour/lib-dto-js';
 import { HydratedDocument } from 'mongoose';
 
 @Schema()

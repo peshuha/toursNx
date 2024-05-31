@@ -2,7 +2,8 @@ import {Injectable} from '@angular/core';
 import {TreeNode} from "primeng/api";
 import {MOCK_ORDERS} from "../../../../../../mock/orders";
 import {BehaviorSubject, of, Subject, switchMap, withLatestFrom} from "rxjs";
-import { IOrder, IOrderKey } from '@tour/lib-dto-js';
+import { IOrder, IOrderKey, ITour } from '@tour/lib-dto-js';
+import { OrderRestService } from 'client/app-tours/src/app/service/rest/order-rest/order-rest.service';
 
 export type IOrderFilter = {
     // Группируем ли вообще
@@ -26,10 +27,20 @@ export class OrderService {
   private rx = new Subject()
   readonly rx$ = this.rx.asObservable()
 
-
   //  = []
   tb: TreeNode<IOrder>[] = []
 
+  constructor(
+    private rest: OrderRestService
+  ) { }
+
+  create(tour: ITour) {
+    return this.rest.create(tour)
+  }
+
+  getAll() {
+    return this.rest.getAll()
+  }
   // getGroupBy() {
   //   const mp: [{[key: IOrderKey]: string}] = [
   //     {"name": "Название"}
@@ -55,6 +66,16 @@ export class OrderService {
 
   // Выдача итогового набора
   getData$() {
+    return this.getAll().pipe(
+      withLatestFrom(this.filter.group_key$),
+      switchMap(([ord, groups]) => {
+        console.log("OrderService::getOrders.groups", groups)
+        return of(this.BuildTree(ord, groups))
+      })
+    )
+  }
+  // // Выдача итогового набора
+  getData0$() {
     return of(MOCK_ORDERS).pipe(
       withLatestFrom(this.filter.group_key$),
       switchMap(([ord, groups]) => {

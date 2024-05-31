@@ -2,9 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {TourService} from "../../../service/tour/tour.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ITour} from "@tour/lib-dto-js";
-import {concat, forkJoin, map, Observable, switchMap} from "rxjs";
-import {TourNearestRestService} from "../../../service/rest/tour-nearest-rest.service";
+import {map} from "rxjs";
 import { ConfigService } from '@tour/lib-common';
+import { MessageService } from 'primeng/api';
+import { OrderService } from '../order/service/order.service';
 
 export interface ITourCarousel {
   "id": string,
@@ -24,7 +25,6 @@ export interface ITourCarousel {
 })
 export class TourInfoComponent implements OnInit{
 
-
   imgbaseurl = ConfigService.Config?.tourservice
   tour: ITour | null | undefined
   dtTours: ITourCarousel[] = []
@@ -33,10 +33,11 @@ export class TourInfoComponent implements OnInit{
   constructor(
     private svcTours: TourService,
     private router: Router,
-    private aroute: ActivatedRoute
+    private aroute: ActivatedRoute,
+    private svcOrder: OrderService,
+    private msgService: MessageService
   ) {
   }
-
 
   ngOnInit(): void {
 
@@ -72,6 +73,15 @@ export class TourInfoComponent implements OnInit{
   }
 
   Order() {
-    throw new Error('Method not implemented.');
+
+    if(!this.tour)
+      return
+
+    console.log("TourInfoComponent::Order()")
+    this.svcOrder.create(this.tour).subscribe(() => {
+      this.msgService.add({ severity: 'success', summary: 'Успешно!', detail: `Тур ${this.tour?.name} заказан!`})
+      this.router.navigate(["/tours/orders"])
+
+    })
   }
 }

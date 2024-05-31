@@ -6,7 +6,9 @@ import { AuthDto, UserDto } from '@tour/lib-dto-js';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name, 'user') private md: Model<User>) {}
+  constructor(
+    @InjectModel(User.name, 'user') private md: Model<User>
+  ) {}
 
   async check(login: string, password: string) {
     return this.md.findOne({ login, password });

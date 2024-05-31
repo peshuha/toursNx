@@ -10,7 +10,7 @@ export  type  IOrder = ITour | {
   birthDate?: string | null,
   age?: number | null,
   citizenship?: string | null
-  userid?: number
+  userid?: string
 }
 
 export type IOrderKey = keyof IOrder

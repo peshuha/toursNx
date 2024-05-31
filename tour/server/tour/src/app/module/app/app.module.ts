@@ -10,6 +10,7 @@ import { AuthGuard } from '../auth/auth.guard';
 import { ProfileModule } from '../profile/profile.module';
 import { TourModule } from '../tour/tour.module';
 import { ImageModule } from '../image/image.module';
+import { OrderModule } from '../order/order.module';
 
 @Module({
   imports: [
@@ -26,11 +27,15 @@ import { ImageModule } from '../image/image.module';
     MongooseModule.forRoot('mongodb://localhost:27017/user', {
       connectionName: 'user',
     }),
+    MongooseModule.forRoot('mongodb://localhost:27017/order', {
+      connectionName: 'order',
+    }),
     UserModule,
     AuthModule,
     ProfileModule,
     TourModule,
     ImageModule, 
+    OrderModule, 
   ],
   controllers: [],
   providers: [
